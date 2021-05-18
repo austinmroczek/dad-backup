@@ -21,8 +21,8 @@ set myfiles="c:\users\shirl"
 set myfiles_daily_network="z:\Shirley\Monthly\%monthly%"
 
 echo ####################### check locations exist #############################
-rem call:checkDrive myfiles
-rem call:checkDrive myfiles_daily_network
+call:checkDrive %myfiles%
+call:checkDrive %myfiles_daily_network%
 
 echo ##### MIRROR PERSONAL FILES TO NETWORK #####
 echo robocopy %myfiles% %myfiles_daily_network% /MIR 
@@ -39,14 +39,16 @@ exit /B
 
 :checkDrive
   rem ########## check that backup drive exists ##########
-  set "dest_drive=%1:~1,3%"
+
+  set temp=%1%
+  set "dest_drive=%temp:~1,3%"
 
   if not exist %dest_drive% (
-    echo Drive %dest_drive% does not exist
+    echo Drive %dest_drive% does not exist.  Could not continue with backup.
     pause
     exit
   ) else (
-    echo Drive exists.  Continuing with backups....
+    rem Drive exists.  Continuing with backups....
   )
 exit /B
 
